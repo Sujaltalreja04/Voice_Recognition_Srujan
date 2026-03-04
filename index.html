@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardian AI | Real-time Fraud & Deepfake Detection</title>
+    <meta name="description" content="Guardian AI detects voice fraud, AI-generated voices, and suspicious call patterns in real-time using advanced browser-native analysis.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="alert.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <path d="M16 2L4 8v8c0 7.5 5.1 14.5 12 16 6.9-1.5 12-8.5 12-16V8L16 2z" fill="url(#shieldGrad)" stroke="#58a6ff" stroke-width="1"/>
+                    <path d="M12 16l3 3 6-6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="shieldGrad" x1="4" y1="2" x2="28" y2="34" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#1a2a4a"/>
+                            <stop offset="1" stop-color="#0d1117"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>GUARDIAN AI</h1>
+            </div>
+            <p class="tagline">Real-time Voice Fraud &amp; Deepfake Detection — 100% Browser-Native</p>
+            <div class="status-pill" id="systemStatus">
+                <span class="pulse-dot"></span>
+                <span id="systemStatusText">System Ready</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Controls Card -->
+        <div class="card full-width" id="controlCard">
+            <div class="controls">
+                <button id="startBtn" class="btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    Start Monitoring
+                </button>
+                <button id="stopBtn" disabled class="btn-danger">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><rect x="9" y="9" width="6" height="6" fill="currentColor"/></svg>
+                    Stop
+                </button>
+                <button id="dwnBtn" disabled class="btn-warning">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15l-4-4h3V5h2v6h3l-4 4z" fill="currentColor"/><path d="M5 18h14v2H5v-2z" fill="currentColor"/></svg>
+                    Download Report
+                </button>
+            </div>
+            <div class="mode-badge" id="modeBadge">
+                <span class="badge-dot"></span>
+                <span id="modeText">Mode: Idle</span>
+            </div>
+        </div>
+
+        <!-- Dashboard Row -->
+        <div class="card full-width dashboard-row">
+            <!-- Gauge -->
+            <div class="gauge-section">
+                <div class="gauge-container">
+                    <div class="gauge-body"></div>
+                    <div class="gauge-fill" id="gaugeFill"></div>
+                    <div class="gauge-cover">
+                        <div id="scoreValue">0%</div>
+                        <div id="scoreLabel">Fraud Risk</div>
+                    </div>
+                </div>
+                <div id="statusObj" class="status-text safe">SAFE</div>
+                <div id="reasonText" class="reason-text">Waiting for audio...</div>
+                <div class="metrics-row">
+                    <div class="metric-chip" id="stressChip">
+                        <span class="metric-label">Stress</span>
+                        <span class="metric-val" id="stressVal">0%</span>
+                    </div>
+                    <div class="metric-chip" id="aiChip">
+                        <span class="metric-label">AI Voice</span>
+                        <span class="metric-val" id="aiVal">—</span>
+                    </div>
+                    <div class="metric-chip">
+                        <span class="metric-label">Lang</span>
+                        <span class="metric-val" id="langVal">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="chart-section">
+                <h3 class="section-title">Live Analysis Graph</h3>
+                <div class="chart-wrapper">
+                    <canvas id="stressChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deepfake (File Upload) Card -->
+        <div class="card full-width" id="deepfakeCard">
+            <h3 class="section-title" style="width:100%; text-align:left;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle; margin-right:6px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" fill="var(--primary)"/></svg>
+                Voice Authenticity Checker
+                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:400; margin-left:8px;">(Upload MP3/WAV — AI deepfake scan)</span>
+            </h3>
+            <p class="muted-text">Upload an audio file to analyze if the voice is <strong>Human</strong> or <strong>AI-Generated</strong>. Works with Tamil, English, Hindi, Malayalam, Telugu.</p>
+            <div class="upload-row">
+                <label class="file-label" for="deepfakeUpload">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 16V8M8 12l4-4 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    Choose Audio File
+                    <input type="file" id="deepfakeUpload" accept="audio/*">
+                </label>
+                <span id="fileName" class="file-name">No file selected</span>
+                <button id="detectDeepfakeBtn" style="background: var(--success);">Analyze Authenticity</button>
+            </div>
+            <div id="dfLoading" class="loading-bar" style="display:none;">
+                <div class="loading-fill"></div>
+                <span>🔍 Scanning Audio Fingerprints...</span>
+            </div>
+            <div id="deepfakeResult" class="deepfake-result" style="display:none;">
+                <div class="df-left">
+                    <div id="dfClassification" class="df-classification">HUMAN</div>
+                    <div id="dfConfidence" class="df-confidence">Confidence: 0%</div>
+                </div>
+                <div class="df-right">
+                    <div id="dfLang" class="df-lang">Language: Detecting...</div>
+                    <div id="dfExplanation" class="df-explanation">—</div>
+                    <div id="dfReasons" class="df-reasons"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visualizer Card -->
+        <div class="card full-width">
+            <h3 class="section-title" style="width:100%; text-align:left;">Audio Stream Visualizer</h3>
+            <canvas id="visualizer"></canvas>
+        </div>
+
+        <!-- Transcript + Log Row -->
+        <div class="card">
+            <h3 class="section-title">Live Transcript</h3>
+            <div id="transcriptLog" class="log-container">
+                <em class="muted-text">Waiting for audio...</em>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="section-title">System Log</h3>
+            <div id="systemLog" class="log-container"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Guardian AI &copy; 2025 — 100% browser-native, no server required &nbsp;·&nbsp; Powered by Web Speech API &amp; Web Audio API</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
