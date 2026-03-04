@@ -128,3 +128,117 @@
     background: #ffcccc !important;
     transform: scale(1.02);
 }
+
+/* ===========================
+   BANNER ALERTS (non-blocking)
+   Stack in top-right corner
+   =========================== */
+
+.banner-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 8888;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(10, 15, 25, 0.97);
+    border: 1px solid rgba(248, 81, 73, 0.6);
+    border-left: 4px solid #f85149;
+    border-radius: 10px;
+    padding: 16px 18px;
+    max-width: 370px;
+    min-width: 280px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(248, 81, 73, 0.15);
+    backdrop-filter: blur(12px);
+    animation: bannerSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    font-family: 'Outfit', sans-serif;
+    /* Stack multiple banners */
+    margin-bottom: 10px;
+}
+
+/* Stack banners vertically */
+.banner-alert+.banner-alert,
+body>.banner-alert:nth-child(n+2) {
+    top: auto;
+}
+
+@keyframes bannerSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(120%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.banner-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 2px;
+}
+
+.banner-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.banner-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #f85149;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.banner-msg {
+    font-size: 0.78rem;
+    color: #c9d1d9;
+    line-height: 1.45;
+}
+
+.banner-close {
+    background: none;
+    border: none;
+    color: #6e7e96;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 2px;
+    transition: color 0.2s;
+}
+
+.banner-close:hover {
+    color: #f85149;
+}
+
+/* Color variants per alert type */
+#banner-high-speed {
+    border-left-color: #e3b341;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(227, 179, 65, 0.15);
+}
+
+#banner-high-speed .banner-title {
+    color: #e3b341;
+}
+
+#banner-scam-keyword {
+    border-left-color: #f85149;
+}
+
+#banner-ai-voice {
+    border-left-color: #a371f7;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(163, 113, 247, 0.2);
+}
+
+#banner-ai-voice .banner-title {
+    color: #a371f7;
+}
